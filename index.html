@@ -17,45 +17,18 @@
     .card img { width: 100%; max-width: 150px; height: auto; margin-bottom: 10px; }
     .cta { display: inline-block; padding: 10px 20px; background: #0078d4; color: #fff; border-radius: 5px; text-decoration: none; margin-top: 10px; }
     footer nav a { color: #fff; margin: 0 5px; }
-
-    /* Make the launcher wrapper and the conversation container resizable by the user */
-    .embeddedMessagingConversationButtonWrapper {
-      resize: both;
-      overflow: auto;
-      min-width: 56px;  /* keep launcher usable */
-      min-height: 56px;
-      max-width: 50vw;
-      max-height: 50vh;
-      position: relative;
-      box-sizing: border-box;
-    }
-
-    /* Embedded Messaging main container (iframe holder) */
-    #embedded-messaging-container {
+	  .embeddedMessagingConversationButtonWrapper {
+    resize: both;
+    overflow: auto;
+}
+	    #embedded-messaging-container {
       resize: both;
       overflow: auto;
       min-width: 320px;
       min-height: 400px;
-      max-width: 95vw;
-      max-height: 95vh;
-      width: var(--em-width, 420px);
-      height: var(--em-height, 520px);
-      box-sizing: border-box;
-      position: relative;
-    }
-
-    /* Visual cue for resizability (non-interactive) */
-    #embedded-messaging-container::after {
-      content: "";
-      position: absolute;
-      right: 6px;
-      bottom: 6px;
-      width: 12px;
-      height: 12px;
-      border-right: 2px solid rgba(0,0,0,0.25);
-      border-bottom: 2px solid rgba(0,0,0,0.25);
-      pointer-events: none;
-    }
+      max-width: 90vw;
+      max-height: 90vh;
+  }
   </style>
 </head>
 <body>
@@ -71,76 +44,22 @@
   </nav>
 </header>
 <script type='text/javascript'>
-  // Enable dynamic drag-to-resize with persistence (no static sizes)
-  (function() {
-    const KEY = 'embeddedMessagingSize';
+	function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
 
-    function applySavedSizeToVars() {
-      try {
-        const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
-        if (saved.width && saved.height) {
-          document.documentElement.style.setProperty('--em-width', saved.width + 'px');
-          document.documentElement.style.setProperty('--em-height', saved.height + 'px');
-        }
-      } catch(e) { /* ignore */ }
-    }
-
-    function persistSize(el) {
-      const rect = el.getBoundingClientRect();
-      const data = { width: Math.round(rect.width), height: Math.round(rect.height) };
-      try { localStorage.setItem(KEY, JSON.stringify(data)); } catch(e) { /* ignore */ }
-    }
-
-    window.addEventListener('DOMContentLoaded', applySavedSizeToVars);
-
-    window.initEmbeddedMessaging = function initEmbeddedMessaging() {
-      try {
-        embeddedservice_bootstrap.settings.language = 'en_US';
-
-        embeddedservice_bootstrap.init(
-          '00Dg5000004BTlx',
-          'Agent_Service_POC',
-          'https://orgfarm-ef94112b51-dev-ed.develop.my.site.com/ESWAgentServicePOC1770641554538',
-          {
-            scrt2URL: 'https://orgfarm-ef94112b51-dev-ed.develop.my.salesforce-scrt.com'
-          }
-        );
-
-        // Observe for the embedded container to appear, then wire up persistence
-        const obs = new MutationObserver(() => {
-          const container = document.getElementById('embedded-messaging-container');
-          if (container) {
-            // If we have saved size, apply it directly to element so it takes precedence
-            try {
-              const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
-              if (saved.width && saved.height) {
-                container.style.width = saved.width + 'px';
-                container.style.height = saved.height + 'px';
-              }
-            } catch(e) {}
-
-            // Debounced save on interaction that likely follows a resize
-            let t;
-            const scheduleSave = () => {
-              clearTimeout(t);
-              t = setTimeout(() => persistSize(container), 200);
-            };
-
-            // Mouse-based end-of-resize cues
-            container.addEventListener('mouseup', scheduleSave);
-            container.addEventListener('mouseleave', scheduleSave);
-            // Window resize as a fallback
-            window.addEventListener('resize', scheduleSave);
-
-            obs.disconnect();
-          }
-        });
-        obs.observe(document.body, { childList: true, subtree: true });
-      } catch (err) {
-        console.error('Error loading Embedded Messaging: ', err);
-      }
-    };
-  })();
+			embeddedservice_bootstrap.init(
+				'00Dg5000004BTlx',
+				'Agent_Service_POC',
+				'https://orgfarm-ef94112b51-dev-ed.develop.my.site.com/ESWAgentServicePOC1770641554538',
+				{
+					scrt2URL: 'https://orgfarm-ef94112b51-dev-ed.develop.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
 </script>
 <script type='text/javascript' src='https://orgfarm-ef94112b51-dev-ed.develop.my.site.com/ESWAgentServicePOC1770641554538/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 
