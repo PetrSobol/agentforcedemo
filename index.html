@@ -17,18 +17,13 @@
     .card img { width: 100%; max-width: 150px; height: auto; margin-bottom: 10px; }
     .cta { display: inline-block; padding: 10px 20px; background: #0078d4; color: #fff; border-radius: 5px; text-decoration: none; margin-top: 10px; }
     footer nav a { color: #fff; margin: 0 5px; }
-	  .embeddedMessagingConversationButtonWrapper {
-    resize: both;
-    overflow: auto;
+
+	   .embeddedMessagingFrameWrapper {
+  resize: both;
+  overflow: auto;
+  min-width: 320px;
+  min-height: 400px;
 }
-	    #embedded-messaging-container {
-      resize: both;
-      overflow: auto;
-      min-width: 320px;
-      min-height: 400px;
-      max-width: 90vw;
-      max-height: 90vh;
-  }
   </style>
 </head>
 <body>
@@ -61,7 +56,9 @@
 		}
 	};
 </script>
+<div class="embeddedMessagingFrameWrapper">
 <script type='text/javascript' src='https://orgfarm-ef94112b51-dev-ed.develop.my.site.com/ESWAgentServicePOC1770641554538/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+</div>
 
 <section class="hero">
   <h2>Keep business moving</h2>
