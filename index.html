@@ -18,13 +18,13 @@
     .cta { display: inline-block; padding: 10px 20px; background: #0078d4; color: #fff; border-radius: 5px; text-decoration: none; margin-top: 10px; }
     footer nav a { color: #fff; margin: 0 5px; }
 
-	   .embeddedMessagingSiteContextFrame {
+	   .embeddedMessagingFrameWrapper {
 		  resize: both;
  		  overflow: auto;
           min-width: 300px;
           min-height: 400px;
     }
-	     #embeddedMessagingSiteContextFrame {
+	     #embeddedMessagingFrameWrapper {
 		  resize: both;
  		  overflow: auto;
           min-width: 300px;
@@ -57,13 +57,29 @@
 					scrt2URL: 'https://orgfarm-ef94112b51-dev-ed.develop.my.salesforce-scrt.com'
 				}
 			);
+
+			    // Wait for iframe to appear
+       setTimeout(() => {
+      const iframe = document.getElementById('embeddedMessagingSiteContextFrame');
+      const wrapper = document.getElementById('embeddedMessagingFrameWrapper');
+		   		  console.log("1234");
+
+      if (iframe && wrapper) {
+        wrapper.appendChild(iframe); // move iframe into your wrapper
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
+		  console.log("OXOXOXO");
+      }
+    }, 2000); // adjust timeout if needed
 		} catch (err) {
 			console.error('Error loading Embedded Messaging: ', err);
 		}
 	};
 </script>
-<div class="embeddedMessagingFrameWrapper">
 <script type='text/javascript' src='https://orgfarm-ef94112b51-dev-ed.develop.my.site.com/ESWAgentServicePOC1770641554538/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+<div class="embeddedMessagingFrameWrapper">
+
 </div>
 
 <section class="hero">
